@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %} Customer Dashboard {% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <div class="container-fluid">
+        <div class="row w-100">
+            <div class="col-12 text-center">
+                <b>Customer Dashboard</b>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto"style="flex-direction: row; justify-content: space-around; width: 100%;">
+            <li class="nav-item active">
+                <a class="nav-link" href="/customer_dashboard">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customer_dashboard/search">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customer_dashboard/summary">Summary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    
+    <div class="container mt-4">
+        <h1>Service Dashboard</h1>
+        {%for cust in customer%}
+            <h2> welcome, {{ cust.user_name }}</h2>
+        {%endfor%}
+        <h2 class="text-center mb-4">Available Services</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                    <tr>
+                        <td>{{ service.service_name }}</td>
+                        <td>{{ service.service_desc }}</td>
+                        <td>
+                            <a href="{{ url_for('create_service_request', service_id=service.id) }}" class="btn-Accept">
+                                Create
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    
+        <h2>Service History</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Service Name</th>
+                    
+                    <th scope="col">Service Professional</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Completed</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if ser_history %}
+                    {% for request in ser_history %}
+                        <tr>
+                            <td>{{ request.service.service_name }}</td>
+                            
+                            <td>{{ request.service_professional.user_name }}</td>
+                            <td>{{ request.status }}</td>
+                            <td>{{ request.date_created }}</td>
+                            <td>{{ request.deadline}}</td>
+                            
+                            <td>
+                                
+                                {%if request.status == 'pending'%}
+                                    <a href="{{url_for('edit_request', request_id=request.id) }}" class="btn-Edit">Edit </a>
+                                    <a href="{{url_for('delete_request', request_id=request.id)}}" class="btn-Delete">Delete </a>
+                                {%elif request.status == 'accepted'%}
+                               <a href="{{url_for('close_request', request_id=request.id) }}" class="btn-Edit">Close </a>
+                              {%elif request.status == 'rejected'%}
+                                <a href="{{url_for('delete_request', request_id=request.id)}}" class="btn-delete">Delete </a>
+                                {%elif request.status == 'closed' %}
+                                <p>service completed</p>
+                                {% if not request.is_rated %}
+                                <a href="{{ url_for('rate_request', request_id=request.id) }}" class="btn-Edit">Rate</a>
+                            {% endif %}
+                                {%endif%}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No service history found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        
+
+
+    {% endblock %}

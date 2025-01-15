@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Service {% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <div class="container-fluid">
+        <div class="row w-100">
+            <div class="col-12 text-center">
+                <b>Admin Dashboard</b>
+            </div>
+        </div>
+    </div>
+
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto"style="flex-direction: row; justify-content: space-around; width: 100%;">
+    <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/search">Search</a>
+    </li>
+   
+    
+    <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+    </li>
+</ul>
+</div>
+</nav>
+<div class="container mt-5">
+    <h2>Edit Service</h2>
+    <form action="{{ url_for('edit_service', service_id=service.id) }}" method="POST">
+        <div class="form-group">
+            <label for="service_name">Service Name</label>
+            <input type="text" class="form-control" id="service_name" name="service_name" value="{{ service.service_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="service_desc">Service Description</label>
+            <textarea class="form-control" id="service_desc" name="service_desc" required>{{ service.service_desc }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="baseprice">Base Price</label>
+            <input type="number" class="form-control" id="baseprice" name="baseprice" value="{{ service.baseprice }}" required>
+        </div>
+        <div class="form-group">
+            <label for="time_req">Time Required</label>
+            <input type="text" class="form-control" id="time_req" name="time_req" value="{{ service.time_req }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Service</button>
+    </form>
+</div>
+{% endblock %}
+

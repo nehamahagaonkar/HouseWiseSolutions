@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "cSpell.enabled": false,
+    "pythonIndent.keepHangingBracketOnLine": true,
+    "pythonIndent.trimLinesWithOnlyWhitespace": true,
+    "pythonIndent.useTabOnHangingIndent": true,
+    "editor.formatOnType": true,
+    "editor.fontSize": 8
+}

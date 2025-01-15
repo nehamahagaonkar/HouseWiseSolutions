@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %} search {% endblock %}
+
+{% block content %}
+  
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <div class="container-fluid">
+        <div class="row w-100">
+            <div class="col-12 text-center">
+                <b>Customer Dashboard</b>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto"style="flex-direction: row; justify-content: space-around; width: 100%;">
+            <li class="nav-item active">
+                <a class="nav-link" href="/customer_dashboard">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customer_dashboard/search">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customer_dashboard/summary">Summary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+     <div class="container">
+       
+       <h1>Search for Services</h1>
+       <form method = "GET" action = "{{url_for('search')}}">
+         <div class="form-group">
+           <label for="search_type">Search by:</label>
+           <select id="search_type" name="search_type">
+             <option value="pincode">Pincode</option>
+             <option value="address">Address</option>
+             <option value="username">Username</option>
+           </select>
+         </div>
+         <div class="form-group">
+           <label for="search_query">Search query:</label>
+           <input type="text" id="search_query" name="search_query" placeholder="Enter search query">
+         </div>
+         <button type="submit" class="btn btn-primary">Search</button>
+         <button type="reset" class="btn btn-secondary">Reset</button>
+       </form>
+       <div id="search-results">
+         <h2>Search Results</h2>
+         <table class="table table-striped">
+           <thead>
+             <tr>
+               <th>Service Name</th>
+               <th>Service Description</th>
+               <th>Base Price</th>
+               <th>Time Required</th>
+               <th> Name</th>
+               <th> Rating</th>
+               <th>View Profile</th>
+             </tr>
+           </thead>
+           <tbody>
+             {% for service in services %}
+             <tr>
+               <td>{{ service.service_name }}</td>
+               <td>{{ service.service_desc }}</td>
+               <td>{{ service.baseprice }}</td>
+               <td>{{ service.time_req }}</td>
+                <td>
+                    {% for professional in service.service_professionals%}
+                    {{professional.user_name}}
+                   
+                   
+                    {% endfor %}
+                </td> 
+            <td>
+                {% for professional in service.service_professionals%}
+                    {{professional.avgrating}}
+                    {% endfor %}
+            </td>  
+             <td>
+                {% for professional in service.service_professionals%}
+                   <a href = "{{url_for('view_service_professional',service_professional_id = professional.id)}}">View Profile</a>
+                    {% endfor %}
+            </td>   
+        
+        
+        </tr>
+             {% endfor %}
+           </tbody>
+         </table>
+       </div>
+     </div>
+   {% endblock %}

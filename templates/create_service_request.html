@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %} Service Professional Dashboard {% endblock %}
+
+{% block content %}
+  
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <div class="container-fluid">
+        <div class="row w-100">
+            <div class="col-12 text-center">
+                <b>Customer Dashboard</b>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto"style="flex-direction: row; justify-content: space-around; width: 100%;">
+            <li class="nav-item active">
+                <a class="nav-link" href="/customer_dashboard">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customer_dashboard/search">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customer_dashboard/summary">Summary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+    <h1>Create Service Request</h1>
+
+    <form method="POST" action="{{ url_for('create_service_request', service_id=service.id) }}">
+        <div class="form-group">
+            <label for="service_name">Service Name:</label>
+            <input type="text" class="form-control" id="service_name" name="service_name" value="{{ service.service_name }}">
+        </div>
+        <div class="form-group">
+            <label for="service_professional">Select Service Proffesional:</label>
+
+            <select class="form-control" id="service_professional" name="service_professional">
+                {% if service_professional %}
+                    {% for professional in service_professional %}
+                        <option value="{{ professional.user_name }}">{{ professional.user_name }}</option>
+                    {% endfor %}
+                {%else%}
+                    <option value="None">no service professional</option>    
+                {% endif %}
+                </select>
+                {% for professional in service_professional %}
+                  
+                        {{ professional.user_name }}
+                {%endfor%}
+    </div>
+        <!-- <label for="status">Status:</label>
+         <select name=" status" id = "status" required>
+            <option value="pending">Pending</option>
+            <option value="accepted">Accepted</option>
+            <option value="closed">Closed</option> -->
+
+        </select> 
+         <div class="form-group">
+            <label for="desc">Description:</label>
+
+            <input type="text" class="form-control" id="desc" name="Description" value="{{ service.desc }}">
+            </div>
+        <div class="form-group"> 
+            <label for="date_created">Date Created:</label>
+            <input type="date" class="form-control" id="date_created" name="date_created" >
+        
+        </div>
+        <div class="form-group">
+            <label for="deadline">Deadline:</label>
+            <input type="date" class="form-control" id="deadline" name="deadline" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+
+
+
+
+{% endblock %}

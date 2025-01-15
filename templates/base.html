@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HouseWise Solutions -</title>{% block remtitle %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+   <style>
+    /* Global Styles */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: #337ab7;
+}
+
+a:hover {
+  color: #23527c;
+}
+
+/* Navbar Styles */
+
+.navbar {
+  background-color: #337ab7;
+  padding: 1em;
+  text-align: center;
+}
+
+.navbar-brand {
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.navbar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-nav li {
+  margin-right: 20px;
+}
+
+.navbar-nav a {
+  color: #fff;
+}
+
+.navbar-nav a:hover {
+  color: #ccc;
+}
+
+/* Table Styles */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+/* Responsive Design */
+
+@media only screen and (max-width: 768px) {
+  .navbar-nav {
+    flex-direction: column;
+  }
+  .navbar-nav li {
+    margin-right: 0;
+  }
+}
+
+  .btn-Accept{
+      background-color: hsl(111, 80%, 55%); /* Blue background */
+      border: 2px solid hsl(111, 80%, 55%); /* Blue border */
+      color: white; /* White text */
+      border-radius: 4px; /* Rounded corners */
+      padding: 1px 2px; /* Padding for a better button feel */
+      text-align: center; /* Center the text inside */
+      text-decoration: none; /* Remove underline */
+  }
+
+  .btn-custom:hover {
+      background-color: #83b5ea; /* Darker blue on hover */
+      border-color: #8dbaea; /* Darker border on hover */
+  }
+  .btn-Reject{
+      background-color: #f90202; /* Blue background */
+      border: 2px solid #f91313; /* Blue border */
+      color: white; /* White text */
+      border-radius: 4px; /* Rounded corners */
+      padding: 1px 2px; /* Padding for a better button feel */
+      text-align: center; /* Center the text inside */
+      text-decoration: none; /* Remove underline */
+  }
+
+  .btn-Reject:hover {
+      background-color: #f02b2b; /* Darker blue on hover */
+      border-color: #ff5555; /* Darker border on hover */
+  }
+  .btn-Edit{
+      background-color: #f1e915; /* Blue background */
+      border: 2px solid #f1e915; /* Blue border */
+      color: white; /* White text */
+      border-radius: 4px; /* Rounded corners */
+      padding: 1px 2px; /* Padding for a better button feel */
+      text-align: center; /* Center the text inside */
+      text-decoration: none; /* Remove underline */
+  }
+
+  .btn-Edit:hover {
+      background-color: #e5e76f; /* Darker blue on hover */
+      border-color: #e5e76f; /* Darker border on hover */
+  }
+  .btn-Delete{
+      background-color: #1571f1; /* Blue background */
+      border: 2px solid #1571f1; /* Blue border */
+      color: white; /* White text */
+      border-radius: 4px; /* Rounded corners */
+      padding: 1px 2px; /* Padding for a better button feel */
+      text-align: center; /* Center the text inside */
+      text-decoration: none; /* Remove underline */
+  }
+
+  .btn-Delete:hover {
+      background-color: #1571f1; /* Darker blue on hover */
+      border-color: #1571f1; /* Darker border on hover */
+  }
+  .btn-Block{
+      background-color: #9d15f1; /* Blue background */
+      border: 2px solid #9d15f1; /* Blue border */
+      color: white; /* White text */
+      border-radius: 4px; /* Rounded corners */
+      padding: 1px 2px; /* Padding for a better button feel */
+      text-align: center; /* Center the text inside */
+      text-decoration: none; /* Remove underline */
+  }
+
+  .btn-Block:hover {
+      background-color: #9d15f1; /* Darker blue on hover */
+      border-color: #9d15f1; /* Darker border on hover */
+  }
+
+  .login-form {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form .form-group {
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.login-form input[type="name"], .login-form input[type="password"] {
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+.login-form button[type="submit"] {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #337ab7;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-form button[type="submit"]:hover {
+  background-color: #23527c;
+}
+
+.register-form {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-form .form-group {
+  margin-bottom: 20px;
+}
+
+.register-form label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.register-form input[type="name"], .register-form input[type="password"], .register-form input[type="email"], .register-form input[type="address"], .register-form input[type="text"] {
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+.register-form button[type="submit"] {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #337ab7;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register-form button[type="submit"]:hover {
+  background-color: #23527c;
+}
+.service-professional-register-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.service-professional-register-form .form-group {
+  margin-bottom: 20px;
+}
+
+.service-professional-register-form label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.service-professional-register-form input[type="text"], .service-professional-register-form input[type="email"], .service-professional-register-form input[type="password"], .service-professional-register-form select {
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+.service-professional-register-form input[type="file"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+.service-professional-register-form button[type="submit"] {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #337ab7;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.service-professional-register-form button[type="submit"]:hover {
+  background-color: #23527c;
+}
+</style>
+
+   </style>
+    {% block cont %}{% endblock %}
+</head>
+
+<body>
+
+
+    <div class="header">
+       <center><b><h1>Housewise Solutions</h1></b></center>
+    </div>
+    
+     <div class="container">
+        {% with messages = get_flashed_messages(with_categories = True) %}
+        {% if messages %} 
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+                <button class="close" onclick="this.parentElement.style.display='none';">&times;</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}    
+        {% endwith %}
+    </div> 
+    {% block content %}{% endblock %}       
+</body>
+</html>

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %} search {% endblock %}
+
+{% block content %}
+           
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <div class="container-fluid">
+        <div class="row w-100">
+            <div class="col-12 text-center">
+                <b>Customer Dashboard</b>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto"style="flex-direction: row; justify-content: space-around; width: 100%;">
+            <li class="nav-item active">
+                <a class="nav-link" href="/customer_dashboard">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customer_dashboard/search">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customer_dashboard/summary">Summary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- templates/close_request.html -->
+
+    <div class="container mt-5">
+        <h1>Close Service Request</h1>
+        <form action="{{ url_for('close_request', request_id=service_request.id) }}" method="POST">
+     
+            <div class="form-group">
+                <label for="service_name">Service Name:</label>
+                <input type="text" class="form-control" id="service_name" name="service_name" 
+                       value="{{ service_request.service.service_name }}" readonly required>
+            </div>
+    
+            <div class="form-group">
+                <label for="service_professional_name">Service Professional Name:</label>
+                <input type="text" class="form-control" id="service_professional_name" name="service_professional_name" 
+                       value="{{ service_request.service_professional.user_name }}" readonly required>
+            </div>
+    
+            
+    </div>
+    <div>
+    
+
+                    <label for="date_closed"> Date Closed:</label>
+                <input type="date" class= "form-control" id="date_closed" name="date_closed" >
+                <div>
+         
+                <div class="form-group">
+                    <label for="desc">Description:</label>
+                    <textarea class="form-control" id="desc" name="desc" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="totaltime">Total Time Taken:</label>
+                    <input type="text" class="form-control" id="totaltime" name="totaltime" required>
+                </div>
+                <div class="form-group">
+                    <label for="total_cost">Total Cost:</label>
+                    <input type="text" class="form-control" id="total_cost" name="total_cost" required>
+                </div>
+               
+                <button type="submit" class="btn-Accept">Submit</button>
+            </form>
+        </div>
+    {% endblock %}

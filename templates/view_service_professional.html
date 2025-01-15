@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %} View Service Professional {% endblock %}
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.rating {
+    color: #ffc107;
+    font-size: 24px;
+}
+
+.review {
+    color: #333;
+    font-size: 18px;
+}
+    </style>
+</head>
+{% block content %}
+<body>
+    <h2> service professional details </h2>
+    <h1>{{ service_professional.user_name }}</h1>
+    <p>Email: {{ service_professional.email_id }}</p>
+    <p>Address: {{ service_professional.address }}</p>
+    <p>Pincode: {{ service_professional.pincode }}</p>
+    <p>Experience: {{ service_professional.ser_pro_exp }}</p>
+    <p>Service: {{ service_professional.service.service_name }}</p>
+    
+    <p>Previous reviews: </p>
+    
+<ul>
+    {% for review in reviews %}
+        <li> 
+            <p>Rating: {{ review.ratingby_customer}}/5</p>
+            <p>Review: {{ review.reviewby_customer }}</p>
+            
+        </li>
+    {% endfor %}
+</ul>
+
+    
+   
+</body>
+</html>
+{% endblock %}

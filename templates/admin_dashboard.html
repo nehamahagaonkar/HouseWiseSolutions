@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+
+{% block title %} Admin Dashboard {% endblock %}
+
+    {% block content %}
+  
+        <form action="/admin_dashboard" method="GET" enctype="multipart/form-data">
+        
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+            <div class="container-fluid">
+                <div class="row w-100">
+                    <div class="col-12 text-center">
+                        <b>Admin Dashboard</b>
+                    </div>
+                </div>
+            </div>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto"style="flex-direction: row; justify-content: space-around; width: 100%;">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/search">Search</a>
+            </li>
+           
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2> Welcome, Admin</h2>
+    
+    <h3>Available Services</h3>
+    {% if services %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Description</th>
+                <th>Base Price</th>
+                <th>Time Required</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <td>{{ service.service_name }}</td>
+                <td>{{ service.service_desc }}</td>
+                <td>{{ service.baseprice }}</td>
+                <td>{{ service.time_req }}</td>
+                <td>
+                    <a href="/edit_service/{{ service.id }}" class="btn-Edit">Edit</button>
+                    <a href="/delete_service/{{ service.id }}" class="btn-Delete">Delete</button>
+                </td>
+                   
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+ 
+    {% else %}
+    <p>No services available.</p>
+    {% endif %}
+    <a href="/admin_dashboard/create_service" class="btn-Accept">Create New Service</a>
+    
+
+    
+    
+<h3>Unapproved Service Professionals</h3>
+{% if unapproved_service_professionals %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for professional in unapproved_service_professionals %}
+        <tr>
+            <td>
+                <a href="{{ url_for('view_service_professional', service_professional_id=professional.id) }}">
+                    {{ professional.user_name }}
+                </a>
+            </td>
+            <td>{{ professional.email_id }}</td>
+            <td>
+                <a href="/admin_dashboard/approve_service_professional/{{ professional.id }}" class="btn-Accept">Accept</button>
+                    <a href="/admin_dashboard/reject_service_professional/{{ professional.id }}" class="btn-Reject">Reject</button>
+                       
+                    </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No unapproved service professionals found.</p>
+{% endif %}
+
+
+<h3>Approved Service Professionals</h3>
+{% if approved_service_professionals %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Provided Service </th>
+            <th>Address</th>
+            <th>Pincode</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for professional in approved_service_professionals %}
+        <tr>
+            <td>
+                <a href="{{ url_for('view_service_professional', service_professional_id=professional.id) }}">
+                    {{ professional.user_name }}
+                </a>
+            </td>
+            <td>{{ professional.service.service_name }}</td>
+            <td>{{ professional.address }}</td>
+            <td>{{ professional.pincode }}</td>
+            <td>
+                <a href="{{url_for('block_service_professional' ,service_professional_id=professional.id)}}" 
+                     class="btn-Block">Block
+            </a>
+                 </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No Approved service professional found.</p>
+{% endif %}
+
+
+<h3>Registered Customers</h3>
+{% if registered_customers %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Pincode</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in registered_customers %}
+        <tr>
+            <td>
+                <a href="{{ url_for('view_customer',customer_id=customer.id) }}">
+                    {{ customer.user_name }}
+                </a>
+            </td>
+            <td>{{ customer.email_id }}</td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.pincode }}</td>    
+            <td>
+                <form action="{{url_for('block_customer' ,customer_id=customer.id)}}" method = "POST">
+                    <button type="submit" class="btn-Block">Block</button>
+                   </form> 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No registeredcustomer found.</p>
+{% endif %}
+
+
+    
+    <h3>Requests</h3>
+    {% if requests %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Service professional</th>
+                <th>customer</th>
+                <th>Service</th>
+                <th>Requested date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td><a href="/admin_dashboard/view_service_professional/{{ request.service_professional.id }}">{{request.service_professional.user_name }}</a></td>
+                <td><a href="/admin_dashboard/view_customer/{{ request.customer.id }}">{{request.customer.user_name }}</a></td>
+                <td>{{ request.service.service_name }}</td>
+                <td>{{ request.date_created}}</td>
+                <td>{{ request.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No requests available.</p>
+    {% endif %}
+</div>
+<h3>Blocked Customers</h3>
+{% if blocked_customers %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Pincode</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in blocked_customers %}
+        <tr>
+            <td>
+                <a href="{{ url_for('view_customer',customer_id=customer.id) }}">
+                    {{ customer.user_name }}
+                </a>
+            </td>
+            <td>{{ customer.email_id }}</td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.pincode }}</td>    
+            <td>
+                <form action="{{url_for('unblock_customer' ,customer_id=customer.id)}}" method = "POST">
+                    <button type="submit" class="btn-Unblock">Unblock</button>
+                   </form> 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No blocked customers found.</p>
+{% endif %}
+
+<h3>Blocked Service Professionals</h3>
+{% if blocked_service_professionals %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Service</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for professional in blocked_service_professionals %}
+        <tr>
+            <td>
+                <a href="{{ url_for('view_service_professional', service_professional_id=professional.id) }}">
+                    {{ professional.user_name }}
+                </a>
+            </td>
+            <td>{{ professional.email_id }}</td>
+            <td>{{ professional.service.service_name }}</td>
+            <td>
+                <form action="{{url_for('unblock_service_professional' ,service_professional_id=professional.id)}}" method = "POST">
+                    <button type="submit" class="btn-Unblock">Unblock</button>
+                   </form> 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No blocked service professionals found.</p>
+{% endif %}
+     
+    </body>
+    {% endblock %}
+</html>
